@@ -1,0 +1,164 @@
+<html>
+    <head>
+        <script type="text/javascript">
+
+        function isEmptyObject(obj){
+               return Object.keys(obj).length === 0;
+        }
+
+        function update_table() {
+
+    //        window.alert("Hi");
+
+            window.document.onload = function(e){
+            }
+
+            var data = {{data|safe}};
+
+//            var data = [];
+//            for (var i = 0; i < 15; i++)
+  //              data.push({});
+
+            for(i = 0 ; i < 5 ; i++) {
+                var bid_amount = "bid_amount".concat((i+1).toString());
+                var bid_price = "bid_price".concat((i+1).toString());
+
+                if (isEmptyObject(data[i])) {
+                    document.getElementById(bid_amount).innerHTML = "5";
+                    document.getElementById(bid_price).innerHTML = "6";
+                    continue;
+                }
+
+                var price_now = data[i]['price'];
+                var amount_now = data[i]['amount'];
+
+                document.getElementById(bid_amount).innerHTML = amount_now;
+                document.getElementById(bid_price).innerHTML = price_now;
+            }
+
+            for(i = 5 ; i < 10 ; i++) {
+                var ask_amount = "ask_amount".concat((i-4).toString());
+                var ask_price = "ask_price".concat((i-4).toString());
+
+                if (isEmptyObject(data[i])) {
+                    document.getElementById(ask_amount).innerHTML = "&nbsp;";
+                    document.getElementById(ask_price).innerHTML = "&nbsp;";
+                    continue;
+                }
+
+                var price_now = data[i]['price'];
+                var amount_now = data[i]['amount'];
+
+                document.getElementById(ask_amount).innerHTML = amount_now;
+                document.getElementById(ask_price).innerHTML = price_now;
+            }
+
+            for(i = 10 ; i < 15 ; i++) {
+                var trade_amount = "trade_amount".concat((i-9).toString());
+                var trade_price = "trade_price".concat((i-9).toString());
+                var trade_timestamp = "trade_timestamp".concat((i-9).toString());
+
+                if (isEmptyObject(data[i])) {
+                    document.getElementById(trade_amount).innerHTML = "&nbsp;";
+                    document.getElementById(trade_price).innerHTML = "&nbsp;";
+                    document.getElementById(trade_timestamp).innerHTML = "&nbsp;";
+                    continue;
+                }
+
+                var price_now = data[i]['price'];
+                var timestamp_now = data[i]['timestamp'];
+                var amount_now = data[i]['amount'];
+                
+                document.getElementById(trade_timestamp).innerHTML = timestamp_now;
+                document.getElementById(trade_amount).innerHTML = amount_now;
+                document.getElementById(trade_price).innerHTML = price_now;
+            }
+            
+        }
+            
+        </script>
+    </head>
+
+    <body>
+
+        <table width="1200" border="1">
+            <tr>
+                <td align='center' colspan="2">Bid</td>
+                <td align='center' colspan="2">Ask</td>
+                <td align='center' colspan="3">Trade</td>
+            </tr>
+
+            <tr>
+                <td id='bid_amount' align="center">amount</td>
+                <td id='bid_price' align="center">price</td>
+                <td id='ask_amount' align="center">amount</td>
+                <td id='ask_price' align="center">price</td>
+                <td id='trade_timestamp' align="center">timestamp</td>
+                <td id='trade_amount' align="center">amount</td>
+                <td id='trade_price' align="center">price</td>
+            </tr>
+
+            <tr>
+                <td id='bid_amount1' align="center">&nbsp;</td>
+                <td id='bid_price1' align="center">&nbsp;</td>
+                <td id='ask_amount1' align="center">&nbsp;</td>
+                <td id='ask_price1' align="center">&nbsp;</td>
+                <td id='trade_timestamp1' align="center">&nbsp;</td>
+                <td id='trade_amount1' align="center">&nbsp;</td>
+                <td id='trade_price1' align="center">&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td id='bid_amount2' align="center">&nbsp;</td>
+                <td id='bid_price2' align="center">&nbsp;</td>
+                <td id='ask_amount2' align="center">&nbsp;</td>
+                <td id='ask_price2' align="center">&nbsp;</td>
+                <td id='trade_timestamp2' align="center">&nbsp;</td>
+                <td id='trade_amount2' align="center">&nbsp;</td>
+                <td id='trade_price2' align="center">&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td id='bid_amount3' align="center">&nbsp;</td>
+                <td id='bid_price3' align="center">&nbsp;</td>
+                <td id='ask_amount3' align="center">&nbsp;</td>
+                <td id='ask_price3' align="center">&nbsp;</td>
+                <td id='trade_timestamp3' align="center">&nbsp;</td>
+                <td id='trade_amount3' align="center">&nbsp;</td>
+                <td id='trade_price3' align="center">&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td id='bid_amount4' align="center">&nbsp;</td>
+                <td id='bid_price4' align="center">&nbsp;</td>
+                <td id='ask_amount4' align="center">&nbsp;</td>
+                <td id='ask_price4' align="center">&nbsp;</td>
+                <td id='trade_timestamp4' align="center">&nbsp;</td>
+                <td id='trade_amount4' align="center">&nbsp;</td>
+                <td id='trade_price4' align="center">&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td id='bid_amount5' align="center">&nbsp;</td>
+                <td id='bid_price5' align="center">&nbsp;</td>
+                <td id='ask_amount5' align="center">&nbsp;</td>
+                <td id='ask_price5' align="center">&nbsp;</td>
+                <td id='trade_timestamp5' align="center">&nbsp;</td>
+                <td id='trade_amount5' align="center">&nbsp;</td>
+                <td id='trade_price5' align="center">&nbsp;</td>
+            </tr>
+
+        </table>
+
+        <form method="get" action="javascript:update_table()">
+            <input type="text" name="user_id"/>
+            <input type="text" name="amount"/>
+            <input type="text" name="price"/>
+            <input type="submit" class="btn" value="Ask" name="ask"/>
+            <input type="submit" class="btn" value="Bid" name="bid"/>
+        </form>
+
+
+    </body>
+
+</html>
