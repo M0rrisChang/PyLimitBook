@@ -25,20 +25,19 @@ def get_timestamp():
 def handling_click(request, timestamp, _type):
     print('handling click')
     price = request.GET.get('price')
+    print('get price:', price)
     amount = request.GET.get('amount')
+    print('get amount:', amount)
     user_id = request.GET.get('user_id')
+    print('get user_id:', user_id)
 
-    #test
-    price = 1 + timestamp
-    amount = timestamp - 1
-    user_id = timestamp - 2
-    #test
 
     data = {
-        'price': price,
-        'timestamp': timestamp,
-        'amount': amount
+        'price': str(price),
+        'timestamp': str(timestamp),
+        'amount': str(amount)
     }
+
 
     if _type == 'bid':
         new_bid(price, amount, user_id, timestamp)
@@ -47,8 +46,9 @@ def handling_click(request, timestamp, _type):
         new_ask(price, amount, user_id, timestamp)
         data['type'] = 'ask'
 
-    while match():
-        print("to do sth..")
+    print("match")
+    ret = match()
+    print("match")
 
     return data
 
@@ -56,6 +56,7 @@ def handling_click(request, timestamp, _type):
 def home(request):
     timestamp = get_timestamp()
     print('get shit:', request.GET.get('ask'))
+
     if(request.GET.get('ask')):
         _type = 'ask'
         data = handling_click(request, timestamp, _type)
@@ -65,13 +66,13 @@ def home(request):
         data = handling_click(request, timestamp, _type)
         print('handling bid..')
 
-
     bids = []
     asks = []
     trades = []
 
     if get_bids(5):
         _bids = get_bids(5)
+        print('bids:', _bids)
         for b in _bids:
            bid = {
                'price': b.price,
@@ -83,6 +84,7 @@ def home(request):
     else:
         print('get no bids')
         bids = [{},{},{},{},{}]
+
     if get_asks(5):
         _asks = get_asks(5)
         for a in _asks:
@@ -113,7 +115,6 @@ def home(request):
     print('a:', asks)
     print('t:', trades)
     table = bids + asks + trades
-    table = [{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]
     print('table15:', table)
 
     return render(request, 'home.html', {
