@@ -56,6 +56,13 @@ class Trade(object):
         rs.hset("trade_amount", self.trade_id, self.amount)
         rs.hset("trade_price", self.trade_id, self.price)
 
+    def to_dict():
+        d = {}
+        d["price"] =  self.price
+        d["amount"] = self.amount
+        d["timestamp"] = self.trade_id
+        return d
+
 
 class Bid(object):
     def __init__(self, price, amount, userid, timestamp):
@@ -70,6 +77,12 @@ class Bid(object):
         rs.set("bid_amount_%d" %(self.userid), self.amount)
         rs.set("bid_timestamp_%d" %(self.userid), self.timestamp)
 
+    def to_dict():
+        d = {}
+        d["price"] =  self.price
+        d["amount"] = self.amount
+        return d
+
 class Ask(object):
     def __init__(self, price, amount, userid, timestamp):
         self.price = int(price)
@@ -82,6 +95,13 @@ class Ask(object):
         rs.set("ask_price_%d" %(self.userid), self.price)
         rs.set("ask_amount_%d" %(self.userid), self.amount)
         rs.set("ask_timestamp_%d" %(self.userid), self.timestamp)
+
+
+    def to_dict():
+        d = {}
+        d["price"] =  self.price
+        d["amount"] = self.amount
+        return d
 
 
 
@@ -122,7 +142,7 @@ def get_asks(count):
     r = []
     if rs.llen("ask_uid")<count:
         return False
-    l = rs.lrange("ask_uid", 0, count)
+    l = rs.lrange("ask_uid", 0, count-1)
     for i in l:
         unpacked_object = get_ask_by_id(int(i), False)
         r.append(unpacked_object)
@@ -130,7 +150,7 @@ def get_asks(count):
 
 def get_bids(count):
     r = []
-    l = rs.lrange("bid_uid", 0, count)
+    l = rs.lrange("bid_uid", 0, count-1)
     for i in l:
         unpacked_object = get_bid_by_id(int(i), False)
         r.append(unpacked_object)
@@ -144,7 +164,7 @@ def new_deal(price, amount, id1, id2, trade_id):
 
 def get_deals(num):
     r = []
-    l = rs.lrange("trade_id", 0, num)
+    l = rs.lrange("trade_id", 0, num-1)
     for i in l:
         id1 = rs.hget("trade_id1", int(i))
         id2 = rs.hget("trade_id1", int(i))
