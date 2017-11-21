@@ -40,6 +40,7 @@ def handling_click(request, timestamp, _type):
 
 
     if _type == 'bid':
+        print(price, amount, user_id, timestamp)
         new_bid(price, amount, user_id, timestamp)
         data['type'] = 'bid'
     else:  # == ask
@@ -57,21 +58,32 @@ def home(request):
     timestamp = get_timestamp()
     print('get shit:', request.GET.get('ask'))
 
+    match_data = {}
     if(request.GET.get('ask')):
         _type = 'ask'
         data = handling_click(request, timestamp, _type)
         print('handling asks..')
+        if match():
+            match_data = {
+                'price': request.GET.get('price'),
+                'amount': request.GET.get('amount')
+            }
     elif(request.GET.get('bid')):
         _type = 'bid'
         data = handling_click(request, timestamp, _type)
+        if match():
+            match_data = {
+                'price': request.GET.get('price'),
+                'amount': request.GET.get('amount')
+            }
         print('handling bid..')
 
     bids = []
     asks = []
     trades = []
 
-    if get_bids(5):
-        _bids = get_bids(5)
+    if get_bids(4):
+        _bids = get_bids(4)
         print('bids:', _bids)
         for b in _bids:
            bid = {
@@ -85,8 +97,8 @@ def home(request):
         print('get no bids')
         bids = [{},{},{},{},{}]
 
-    if get_asks(5):
-        _asks = get_asks(5)
+    if get_asks(4):
+        _asks = get_asks(4)
         for a in _asks:
             ask = {
                 'price': a.price,
@@ -97,13 +109,13 @@ def home(request):
             asks.append({})
     else:
         asks = [{},{},{},{},{}]
-    if get_deals(5):
-        _trades = get_deals(5)
+    if get_deals(4):
+        _trades = get_deals(4)
         for t in _trades:
             trade = {
                 'price': t.price,
                 'amount': t.amount,
-                'timestamp': t.timestamp
+                'timestamp': t.trade_id
             }
             trades.append(trade)
         while len(trades) < 5:
@@ -116,6 +128,7 @@ def home(request):
     print('t:', trades)
     table = bids + asks + trades
     print('table15:', table)
+    table.append(match_data)
 
     return render(request, 'home.html', {
         'data': json.dumps(table)
