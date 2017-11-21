@@ -116,6 +116,7 @@ def new_bid(price, amount, userid, timestamp):
         print("rm ask", userid)
 
 def new_ask(price, amount, userid, timestamp):
+    print("new_ask", userid)
     ask = get_ask_by_id(userid)
     if ask != None:
         print("there's same tic exist")
@@ -167,9 +168,9 @@ def get_deals(num):
     l = rs.lrange("trade_id", 0, num-1)
     for i in l:
         id1 = rs.hget("trade_id1", int(i))
-        id2 = rs.hget("trade_id1", int(i))
-        amount = rs.hget("trade_id1", int(i))
-        price = rs.hget("trade_id1", int(i))
+        id2 = rs.hget("trade_id2", int(i))
+        amount = rs.hget("trade_amount", int(i))
+        price = rs.hget("trade_price", int(i))
         r.append(Trade(price, amount, id1, id2, int(i)))
     return r
 
