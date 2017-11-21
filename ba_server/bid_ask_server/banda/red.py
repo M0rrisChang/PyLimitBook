@@ -143,7 +143,7 @@ def get_asks(count):
     r = []
     #if rs.llen("ask_uid")<count:
     #    return False
-    l = rs.lrange("ask_uid", 0, count-1)
+    l = rs.sort("ask_uid", by='ask_price_*', desc=True)[0:count]
     for i in l:
         unpacked_object = get_ask_by_id(int(i), False)
         r.append(unpacked_object)
@@ -151,7 +151,7 @@ def get_asks(count):
 
 def get_bids(count):
     r = []
-    l = rs.lrange("bid_uid", 0, count-1)
+    l = rs.sort("bid_uid", by='bid_price_*')[0:count]
     for i in l:
         unpacked_object = get_bid_by_id(int(i), False)
         r.append(unpacked_object)

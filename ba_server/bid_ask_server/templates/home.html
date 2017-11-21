@@ -1,82 +1,6 @@
 <html>
     <head>
-        <script type="text/javascript">
 
-        function isEmptyObject(obj){
-               return Object.keys(obj).length === 0;
-        }
-
-        function update_table() {
-
-    //        window.alert("Hi");
-
-            window.document.onload = function(e){
-            }
-
-            var data = {{data|safe}};
-
-//            var data = [];
-//            for (var i = 0; i < 15; i++)
-  //              data.push({});
-
-            for(i = 0 ; i < 5 ; i++) {
-                var bid_amount = "bid_amount".concat((i+1).toString());
-                var bid_price = "bid_price".concat((i+1).toString());
-
-                if (isEmptyObject(data[i])) {
-                    document.getElementById(bid_amount).innerHTML = "5";
-                    document.getElementById(bid_price).innerHTML = "6";
-                    continue;
-                }
-
-                var price_now = data[i]['price'];
-                var amount_now = data[i]['amount'];
-
-                document.getElementById(bid_amount).innerHTML = amount_now;
-                document.getElementById(bid_price).innerHTML = price_now;
-            }
-
-            for(i = 5 ; i < 10 ; i++) {
-                var ask_amount = "ask_amount".concat((i-4).toString());
-                var ask_price = "ask_price".concat((i-4).toString());
-
-                if (isEmptyObject(data[i])) {
-                    document.getElementById(ask_amount).innerHTML = "&nbsp;";
-                    document.getElementById(ask_price).innerHTML = "&nbsp;";
-                    continue;
-                }
-
-                var price_now = data[i]['price'];
-                var amount_now = data[i]['amount'];
-
-                document.getElementById(ask_amount).innerHTML = amount_now;
-                document.getElementById(ask_price).innerHTML = price_now;
-            }
-
-            for(i = 10 ; i < 15 ; i++) {
-                var trade_amount = "trade_amount".concat((i-9).toString());
-                var trade_price = "trade_price".concat((i-9).toString());
-                var trade_timestamp = "trade_timestamp".concat((i-9).toString());
-
-                if (isEmptyObject(data[i])) {
-                    document.getElementById(trade_amount).innerHTML = "&nbsp;";
-                    document.getElementById(trade_price).innerHTML = "&nbsp;";
-                    document.getElementById(trade_timestamp).innerHTML = "&nbsp;";
-                    continue;
-                }
-
-                var price_now = data[i]['price'];
-                var timestamp_now = data[i]['timestamp'];
-                var amount_now = data[i]['amount'];
-                
-                document.getElementById(trade_timestamp).innerHTML = timestamp_now;
-                document.getElementById(trade_amount).innerHTML = amount_now;
-                document.getElementById(trade_price).innerHTML = price_now;
-            }
-            
-        }
-            
-        </script>
     </head>
 
     <body>
@@ -150,13 +74,102 @@
 
         </table>
 
-        <form method="get" action="javascript:update_table()">
-            <input type="text" name="user_id"/>
-            <input type="text" name="amount"/>
-            <input type="text" name="price"/>
-            <input type="submit" class="btn" value="Ask" name="ask"/>
-            <input type="submit" class="btn" value="Bid" name="bid"/>
+        <script type="text/javascript">
+
+        function isEmptyObject(obj){
+            return Object.keys(obj).length === 0;
+        }
+
+
+        window.document.onload = function(){
+        }
+            //data = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+
+            var data = {{data|safe}};
+
+            for(i = 0 ; i < 5 ; i++) {
+                var bid_amount = "bid_amount".concat((i+1).toString());
+                var bid_price = "bid_price".concat((i+1).toString());
+
+                if (isEmptyObject(data[i])) {
+                    document.getElementById(bid_amount).innerHTML = "&nbsp;";
+                    document.getElementById(bid_price).innerHTML = "&nbsp;";
+                    continue;
+                }
+
+                var bprice_now = data[i]['price'];
+                var bamount_now = data[i]['amount'];
+
+                document.getElementById(bid_amount).innerHTML = bamount_now;
+                document.getElementById(bid_price).innerHTML = bprice_now;
+            }
+
+            for(i = 5 ; i < 10 ; i++) {
+                var ask_amount = "ask_amount".concat((i-4).toString());
+                var ask_price = "ask_price".concat((i-4).toString());
+
+                if (isEmptyObject(data[i])) {
+                    document.getElementById(ask_amount).innerHTML = "&nbsp;";
+                    document.getElementById(ask_price).innerHTML = "&nbsp;";
+                    continue;
+                }
+
+                var aprice_now = data[i]['price'];
+                var aamount_now = data[i]['amount'];
+
+                document.getElementById(ask_amount).innerHTML = aamount_now;
+                document.getElementById(ask_price).innerHTML = aprice_now;
+            }
+
+            for(i = 10 ; i < 15 ; i++) {
+                var trade_amount = "trade_amount".concat((i-9).toString());
+                var trade_price = "trade_price".concat((i-9).toString());
+                var trade_timestamp = "trade_timestamp".concat((i-9).toString());
+
+                if (isEmptyObject(data[i])) {
+                    document.getElementById(trade_amount).innerHTML = "&nbsp;";
+                    document.getElementById(trade_price).innerHTML = "&nbsp;";
+                    document.getElementById(trade_timestamp).innerHTML = "&nbsp;";
+                    continue;
+                }
+
+                var tprice_now = data[i]['price'];
+                var ttimestamp_now = data[i]['timestamp'];
+                var tamount_now = data[i]['amount'];
+
+                document.getElementById(trade_timestamp).innerHTML = ttimestamp_now;
+                document.getElementById(trade_amount).innerHTML = tamount_now;
+                document.getElementById(trade_price).innerHTML = tprice_now;
+            }
+/*
+            if (!isEmptyObject(data[15])) {
+                var matched_amount = data[15]['amount'];
+                var matched_price = data[15]['price'];
+                window.alert('Matched!\namount = ' + matched_amount.toString() + '\nprice = ' + matched_price.toString());
+            }
+*/
+
+        </script>
+
+        <form method="get">
+            <table>
+                <tr>
+                    <td align="center">User ID</td>
+                    <td align="center">Amount</td>
+                    <td align="center">Price</td>
+                    <td align="center"></td>
+                    <td align="center"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" name="user_id"/>
+                    <td><input type="text" name="amount"/>
+                    <td><input type="text" name="price"/></td>
+                    <td><input type="submit" class="btn" value="Ask" name="ask"/></td>
+                    <td><input type="submit" class="btn" value="Bid" name="bid"/></td>
+                </tr>
+            </table>
         </form>
+
 
 
     </body>

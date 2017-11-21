@@ -37,8 +37,6 @@ def handling_click(request, timestamp, _type):
         'timestamp': str(timestamp),
         'amount': str(amount)
     }
-
-
     if _type == 'bid':
         print(price, amount, user_id, timestamp)
         new_bid(price, amount, user_id, timestamp)
@@ -82,8 +80,8 @@ def home(request):
     asks = []
     trades = []
 
-    if get_bids(4):
-        _bids = get_bids(4)
+    if get_bids(5):
+        _bids = get_bids(5)
         print('bids:', _bids)
         for b in _bids:
            bid = {
@@ -97,8 +95,8 @@ def home(request):
         print('get no bids')
         bids = [{},{},{},{},{}]
 
-    if get_asks(4):
-        _asks = get_asks(4)
+    if get_asks(5):
+        _asks = get_asks(5)
         for a in _asks:
             ask = {
                 'price': a.price,
@@ -109,8 +107,8 @@ def home(request):
             asks.append({})
     else:
         asks = [{},{},{},{},{}]
-    if get_deals(4):
-        _trades = get_deals(4)
+    if get_deals(5):
+        _trades = get_deals(5)
         for t in _trades:
             trade = {
                 'price': t.price,
@@ -133,4 +131,3 @@ def home(request):
     return render(request, 'home.html', {
         'data': json.dumps(table)
     })
-
