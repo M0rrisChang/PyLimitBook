@@ -106,7 +106,7 @@ class Ask(object):
 
 
 def new_bid(price, amount, userid, timestamp):
-    bid = get_bid_by_id(userid)
+    bid = get_bid_by_id(int(userid))
     if bid != None:
         print("there's same tic exist")
     bid = Bid(price, amount, userid, timestamp)
@@ -116,11 +116,11 @@ def new_bid(price, amount, userid, timestamp):
         print("rm ask", userid)
 
 def new_ask(price, amount, userid, timestamp):
-    print("new_ask", userid)
-    ask = get_ask_by_id(userid)
+    print("=====================new_ask===========\n", userid)
+    ask = get_ask_by_id(int(userid))
     if ask != None:
         print("there's same tic exist")
-    ask = Ask(price, amount, userid, timestamp)
+    ask = Ask(price, amount, int(userid), timestamp)
     if amount != 0 and price != 0:
         ask.save_to_db()
     else:
@@ -141,8 +141,8 @@ def get_low_bid():
 
 def get_asks(count):
     r = []
-    if rs.llen("ask_uid")<count:
-        return False
+    #if rs.llen("ask_uid")<count:
+    #    return False
     l = rs.lrange("ask_uid", 0, count-1)
     for i in l:
         unpacked_object = get_ask_by_id(int(i), False)
