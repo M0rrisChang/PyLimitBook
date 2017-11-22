@@ -1,7 +1,9 @@
 import redis
 import pickle
+import os
 
-rs = redis.Redis(host='127.0.0.1', port=6379, db=0)
+print ("============,", os.environ['REDIS_HOST'])
+rs = redis.Redis(host=os.environ['REDIS_HOST'], port=6379, db=0)
 rs.set("global_trade_id", 0)
 
 

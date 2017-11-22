@@ -1,17 +1,21 @@
 version: '2'
 services:
   redis:
-    image: redis:latest
     ports:
-      - "6379:6379"
+     - "0.0.0.0:6379:6379"
+    image: redis:latest
     restart: always
 
   web:
+    restart: always
     build: .
     volumes:
       - .:/code
+    command: python3 ./ba_server/bid_ask_server/manage.py runserver 0.0.0.0:8000
+    environment:
+      - REDIS_HOST=redis
     ports:
-      - "8000:8000"
+      - "0.0.0.0:8000:8000"
     depends_on:
       - redis
     links:
