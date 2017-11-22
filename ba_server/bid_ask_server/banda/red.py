@@ -2,7 +2,8 @@ import redis
 import pickle
 
 rs = redis.Redis(host='127.0.0.1', port=6379, db=0)
-global_trade_id = 0
+rs.set("global_trade_id", 0)
+
 
 # get from redis and unpickle
 #unpacked_object = pickle.loads(rs.get('c'))
