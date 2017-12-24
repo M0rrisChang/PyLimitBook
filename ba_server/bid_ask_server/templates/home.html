@@ -1,18 +1,15 @@
 <html>
-    <head>
-
-    </head>
 
     <body>
 
         <table width="1200" border="1">
-            <tr>
+            <tr bgcolor="#008A00">
                 <td align='center' colspan="2">Bid</td>
                 <td align='center' colspan="2">Ask</td>
                 <td align='center' colspan="3">Trade</td>
             </tr>
 
-            <tr>
+            <tr bgcolor="#00D600">
                 <td id='bid_amount' align="center">amount</td>
                 <td id='bid_price' align="center">price</td>
                 <td id='ask_amount' align="center">amount</td>
@@ -22,7 +19,7 @@
                 <td id='trade_price' align="center">price</td>
             </tr>
 
-            <tr>
+            <tr bgcolor="#DEFFDE">
                 <td id='bid_amount1' align="center">&nbsp;</td>
                 <td id='bid_price1' align="center">&nbsp;</td>
                 <td id='ask_amount1' align="center">&nbsp;</td>
@@ -32,7 +29,7 @@
                 <td id='trade_price1' align="center">&nbsp;</td>
             </tr>
 
-            <tr>
+            <tr bgcolor="#DEFFDE">
                 <td id='bid_amount2' align="center">&nbsp;</td>
                 <td id='bid_price2' align="center">&nbsp;</td>
                 <td id='ask_amount2' align="center">&nbsp;</td>
@@ -42,7 +39,7 @@
                 <td id='trade_price2' align="center">&nbsp;</td>
             </tr>
 
-            <tr>
+            <tr bgcolor="#DEFFDE">
                 <td id='bid_amount3' align="center">&nbsp;</td>
                 <td id='bid_price3' align="center">&nbsp;</td>
                 <td id='ask_amount3' align="center">&nbsp;</td>
@@ -52,7 +49,7 @@
                 <td id='trade_price3' align="center">&nbsp;</td>
             </tr>
 
-            <tr>
+            <tr bgcolor="#DEFFDE">
                 <td id='bid_amount4' align="center">&nbsp;</td>
                 <td id='bid_price4' align="center">&nbsp;</td>
                 <td id='ask_amount4' align="center">&nbsp;</td>
@@ -62,7 +59,7 @@
                 <td id='trade_price4' align="center">&nbsp;</td>
             </tr>
 
-            <tr>
+            <tr bgcolor="#DEFFDE">
                 <td id='bid_amount5' align="center">&nbsp;</td>
                 <td id='bid_price5' align="center">&nbsp;</td>
                 <td id='ask_amount5' align="center">&nbsp;</td>
@@ -82,10 +79,10 @@
 
 
         window.document.onload = function(){
-        }
+        }   
             //data = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 
-            var data = {{data|safe}};
+            var data = {{data|safe}};    
 
             for(i = 0 ; i < 5 ; i++) {
                 var bid_amount = "bid_amount".concat((i+1).toString());
@@ -136,41 +133,60 @@
                 var tprice_now = data[i]['price'];
                 var ttimestamp_now = data[i]['timestamp'];
                 var tamount_now = data[i]['amount'];
-
+                
                 document.getElementById(trade_timestamp).innerHTML = ttimestamp_now;
                 document.getElementById(trade_amount).innerHTML = tamount_now;
                 document.getElementById(trade_price).innerHTML = tprice_now;
             }
-/*
+
             if (!isEmptyObject(data[15])) {
                 var matched_amount = data[15]['amount'];
                 var matched_price = data[15]['price'];
                 window.alert('Matched!\namount = ' + matched_amount.toString() + '\nprice = ' + matched_price.toString());
             }
-*/
-
+            
+            
         </script>
 
         <form method="get">
             <table>
                 <tr>
+                    <select onchange="this.form.submit()" name="category" class="btn">
+                        <option value="XMRUSD">XMR/USD</option>
+                        <option value="XMRBTC">XMR/BTC</option>
+                        <option value="XMRETH">XMR/ETH</option>
+                        <option value="XMRLTC">XMR/LTC</option>
+                        <option value="XMRETC">XMR/ETC</option>
+                        <option value="XMRRRT">XMR/RRT</option>
+                        <option value="XMRDASH">XMR/DASH</option>
+                        <option value="XMRIOTA">XMR/IOTA</option>
+                        <option value="XMREOS">XMR/EOS</option>
+                        <option value="XMRBCC">XMR/BCC</option>
+                    </select>
+                </tr>
+            </table>
+        </form>
+
+        <form method="get">
+            <table border=1>
+                <tr bgcolor="#B5FFB5">
                     <td align="center">User ID</td>
                     <td align="center">Amount</td>
                     <td align="center">Price</td>
                     <td align="center"></td>
-                    <td align="center"></td>
                 </tr>
-                <tr>
+                <tr bgcolor="#DEFFDE">
                     <td><input type="text" name="user_id"/>
                     <td><input type="text" name="amount"/>
                     <td><input type="text" name="price"/></td>
-                    <td><input type="submit" class="btn" value="Ask" name="ask"/></td>
-                    <td><input type="submit" class="btn" value="Bid" name="bid"/></td>
+                    <td><input type="submit" class="btn" value="Ask" name="ask"/><input type="submit" class="btn" value="Bid" name="bid"/></td>
                 </tr>
             </table>
         </form>
 
 
+
+        
 
     </body>
 
