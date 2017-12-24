@@ -54,6 +54,7 @@ def handling_click(request, timestamp, _type):
 
 def home(request):
     timestamp = get_timestamp()
+    pair = 'XMRUSD'
     print('get shit:', request.GET.get('ask'))
 
     match_data = {}
@@ -75,12 +76,15 @@ def home(request):
                 'amount': request.GET.get('amount')
             }
         print('handling bid..')
+    elif(request.GET.get('category')):
+        _type = 'category'
+        pair = request.GET.get('category')
 
     bids = []
     asks = []
     trades = []
 
-    if get_bids(5):
+    if get_bids(5, pair):
         _bids = get_bids(5)
         print('bids:', _bids)
         for b in _bids:
@@ -95,7 +99,7 @@ def home(request):
         print('get no bids')
         bids = [{},{},{},{},{}]
 
-    if get_asks(5):
+    if get_asks(5, pair):
         _asks = get_asks(5)
         for a in _asks:
             ask = {
@@ -107,7 +111,8 @@ def home(request):
             asks.append({})
     else:
         asks = [{},{},{},{},{}]
-    if get_deals(5):
+
+    if get_deals(5, pair):
         _trades = get_deals(5)
         for t in _trades:
             trade = {
