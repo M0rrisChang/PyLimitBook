@@ -63,7 +63,7 @@ class Trade(object):
         rs.hset(self.pair + "trade_amount", self.trade_id, self.amount)
         rs.hset(self.pair + "trade_price", self.trade_id, self.price)
 
-    def to_dict():
+    def to_dict(self):
         d = {}
         d["price"] =  self.price
         d["amount"] = self.amount
@@ -86,7 +86,7 @@ class Bid(object):
         rs.set(self.pair + "bid_amount_%d" %(self.userid), self.amount)
         rs.set(self.pair + "bid_timestamp_%d" %(self.userid), self.timestamp)
 
-    def to_dict():
+    def to_dict(self):
         d = {}
         d["price"] =  self.price
         d["amount"] = self.amount
@@ -108,7 +108,7 @@ class Ask(object):
         rs.set(self.pair + "ask_timestamp_%d" %(self.userid), self.timestamp)
 
 
-    def to_dict():
+    def to_dict(self):
         d = {}
         d["price"] =  self.price
         d["amount"] = self.amount
@@ -117,7 +117,7 @@ class Ask(object):
 
 
 def new_bid(price, amount, userid, timestamp, pair = "default"):
-    bid = get_bid_by_id(int(userid))
+    bid = get_bid_by_id(int(userid), pair=pair)
     if bid != None:
         print("there's same tic exist")
     bid = Bid(price, amount, userid, timestamp, pair)
@@ -128,7 +128,7 @@ def new_bid(price, amount, userid, timestamp, pair = "default"):
 
 def new_ask(price, amount, userid, timestamp, pair = "default"):
     print("=====================new_ask===========\n", userid)
-    ask = get_ask_by_id(int(userid), pair)
+    ask = get_ask_by_id(int(userid), pair=pair)
     if ask != None:
         print("there's same tic exist")
     ask = Ask(price, amount, int(userid), timestamp, pair)

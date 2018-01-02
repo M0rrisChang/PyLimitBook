@@ -49,7 +49,7 @@ def handling_click(request, timestamp, _type, pair):
         data['type'] = 'ask'
 
     print("match")
-    ret = match()
+    ret = match(pair)
     print("match")
 
     return data
@@ -68,7 +68,7 @@ def home(request):
         _type = 'ask'
         data = handling_click(request, timestamp, _type, pair)
         print('handling asks..')
-        if match():
+        if match(pair):
             match_data = {
                 'price': request.GET.get('price'),
                 'amount': request.GET.get('amount')
@@ -76,7 +76,7 @@ def home(request):
     elif(request.GET.get('bid')):
         _type = 'bid'
         data = handling_click(request, timestamp, _type, pair)
-        if match():
+        if match(pair):
             match_data = {
                 'price': request.GET.get('price'),
                 'amount': request.GET.get('amount')
