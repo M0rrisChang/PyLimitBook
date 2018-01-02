@@ -10,6 +10,9 @@ rs.set("defaultglobal_trade_id", 0)
 # get from redis and unpickle
 #unpacked_object = pickle.loads(rs.get('c'))
 
+def put_default(pair):
+    if rs.get(pair+"global_trade_id") is None:
+        rs.set(pair + "global_trade_id", 0)
 
 def get_bid_by_id(userid, pop=True, pair = "default"):
     l = rs.lrange(pair + "bid_uid", 0, -1)
@@ -192,7 +195,7 @@ def match(pair = "default"):
                 deal_amount = int(bid.amount)
             else:
                 deal_amount = int(ask.amount)
-            if new_deal(deal_price, deal_amount, ask.userid, bid.userid, int(rs.get("global_trade_id")), pair):
+            if new_deal(deal_price, deal_amount, ask.userid, bid.userid, int(rs.get(pair + "global_trade_id")), pair):
                 rs.set(pair + "global_trade_id", int(rs.get(pair + "global_trade_id")) + 1)
 
             new_bid(bid.price, int(bid.amount)-deal_amount, bid.userid, bid.timestamp, pair)

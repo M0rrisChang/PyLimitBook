@@ -9,7 +9,7 @@ import json
 import time
 
 
-from .red import new_bid, new_ask, match, get_bids, get_asks, get_deals
+from .red import new_bid, new_ask, match, get_bids, get_asks, get_deals, put_default
 
 
 
@@ -22,9 +22,12 @@ def get_timestamp():
     return timestamp
 
 
-def handling_click(request, timestamp, _type):
+def handling_click(request, timestamp, _type, pair):
+
     print('handling click')
     price = request.GET.get('price')
+    pair = request.GET.get('pair')
+    print(pair)
     print('get price:', price)
     amount = request.GET.get('amount')
     print('get amount:', amount)
@@ -39,10 +42,10 @@ def handling_click(request, timestamp, _type):
     }
     if _type == 'bid':
         print(price, amount, user_id, timestamp)
-        new_bid(price, amount, user_id, timestamp)
+        new_bid(price, amount, user_id, timestamp, pair)
         data['type'] = 'bid'
     else:  # == ask
-        new_ask(price, amount, user_id, timestamp)
+        new_ask(price, amount, user_id, timestamp, pair)
         data['type'] = 'ask'
 
     print("match")
@@ -54,13 +57,16 @@ def handling_click(request, timestamp, _type):
 
 def home(request):
     timestamp = get_timestamp()
-    pair = 'XMRUSD'
+    if(request.GET.get('pair')):
+        pair = request.GET.get('pair')
+    else:
+        pair = 'XMRUSD'
     print('get shit:', request.GET.get('ask'))
 
     match_data = {}
     if(request.GET.get('ask')):
         _type = 'ask'
-        data = handling_click(request, timestamp, _type)
+        data = handling_click(request, timestamp, _type, pair)
         print('handling asks..')
         if match():
             match_data = {
@@ -69,7 +75,7 @@ def home(request):
             }
     elif(request.GET.get('bid')):
         _type = 'bid'
-        data = handling_click(request, timestamp, _type)
+        data = handling_click(request, timestamp, _type, pair)
         if match():
             match_data = {
                 'price': request.GET.get('price'),
@@ -79,14 +85,14 @@ def home(request):
     elif(request.GET.get('category')):
         _type = 'category'
         pair = request.GET.get('category')
+        put_default(pair)
 
     bids = []
     asks = []
     trades = []
-
+    print("pair", pair)
     if get_bids(5, pair):
-        _bids = get_bids(5)
-        print('bids:', _bids)
+        _bids = get_bids(5, pair)
         for b in _bids:
            bid = {
                'price': b.price,
@@ -97,23 +103,26 @@ def home(request):
             bids.append({})
     else:
         print('get no bids')
+
         bids = [{},{},{},{},{}]
 
     if get_asks(5, pair):
-        _asks = get_asks(5)
+        _asks = get_asks(5, pair)
         for a in _asks:
             ask = {
                 'price': a.price,
                 'amount': a.amount
             }
             asks.append(ask)
+        print("===========", asks)
         while len(asks) < 5:
             asks.append({})
     else:
+        print(pair)
         asks = [{},{},{},{},{}]
 
     if get_deals(5, pair):
-        _trades = get_deals(5)
+        _trades = get_deals(5, pair)
         for t in _trades:
             trade = {
                 'price': t.price,
@@ -134,5 +143,6 @@ def home(request):
     table.append(match_data)
 
     return render(request, 'home.html', {
-        'data': json.dumps(table)
+        'data': json.dumps(table),
+        'pair': pair,
     })

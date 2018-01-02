@@ -79,11 +79,10 @@
 
 
         window.document.onload = function(){
-        }   
+        }
             //data = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 
-            var data = {{data|safe}};    
-
+            var data = {{data|safe}};
             for(i = 0 ; i < 5 ; i++) {
                 var bid_amount = "bid_amount".concat((i+1).toString());
                 var bid_price = "bid_price".concat((i+1).toString());
@@ -133,7 +132,7 @@
                 var tprice_now = data[i]['price'];
                 var ttimestamp_now = data[i]['timestamp'];
                 var tamount_now = data[i]['amount'];
-                
+
                 document.getElementById(trade_timestamp).innerHTML = ttimestamp_now;
                 document.getElementById(trade_amount).innerHTML = tamount_now;
                 document.getElementById(trade_price).innerHTML = tprice_now;
@@ -144,14 +143,14 @@
                 var matched_price = data[15]['price'];
                 window.alert('Matched!\namount = ' + matched_amount.toString() + '\nprice = ' + matched_price.toString());
             }
-            
-            
+
+
         </script>
 
         <form method="get">
             <table>
                 <tr>
-                    <select onchange="this.form.submit()" name="category" class="btn">
+                    <select onchange="this.form.submit()" name="category" class="btn" value="">
                         <option value="XMRUSD">XMR/USD</option>
                         <option value="XMRBTC">XMR/BTC</option>
                         <option value="XMRETH">XMR/ETH</option>
@@ -179,6 +178,7 @@
                     <td><input type="text" name="user_id"/>
                     <td><input type="text" name="amount"/>
                     <td><input type="text" name="price"/></td>
+                    <td><input type="text" readonly="True" value="{{pair}}" name="pair"/></td>
                     <td><input type="submit" class="btn" value="Ask" name="ask"/><input type="submit" class="btn" value="Bid" name="bid"/></td>
                 </tr>
             </table>
@@ -186,7 +186,6 @@
 
 
 
-        
 
     </body>
 
